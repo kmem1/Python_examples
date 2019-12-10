@@ -21,4 +21,32 @@ def makeWidgets():
     Button(window, text = 'Update', command=updateRecord).pack(side=LEFT)
     Button(window, text = 'Quit', command=window.quit).pack(side=RIGHT)
     return window
+
+def fetchRecord():
+    key = entries['key'].get()
+    try:
+        record = db[key]
+    except:
+        showerror(title='Error', message='No such key!')
+    else:
+        for field in fieldnames:
+            entries[field].delete(0, END)
+            entries[field].insert(0, repr(getattr(record, field)))
+
+def updateRecord():
+    key = entries['key'].get()
+    if key in db:
+        record = db[key]
+    else:
+        from person import Person
+        record = Person(name = '?', age = '?')
+
+    for field in fieldnames:
+        setattr(record, field, eval(entries[field].get()))
+    db[key] = record
+
+db = shelve.open(shelvename)
+window = makeWidgets()
+window.mainloop()
+db.close()
     
