@@ -1,0 +1,30 @@
+fromMeas = int(input('From: '))
+toMeas = int(input('To: '))
+
+number = int(input('Number: '))
+
+def toLetter(n):
+  if n > 10:
+    alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    return alph[n+10]
+
+if fromMeas == toMeas:
+  print(number)
+elif fromMeas > toMeas:
+  n = number
+  output = ''
+  while(n >= toMeas):
+    ost = n % toMeas
+    ost = toLetter(ost)
+    n = n // toMeas
+    output += str(ost)
+  n = toLetter(n)
+  output += str(n)
+  print(output[::-1])
+else:
+  n = str(number)
+  l = len(n)
+  output = 0
+  for i in range(l):
+    output += int(n[i]) * fromMeas ** (l-i-1)
+  print(output)
